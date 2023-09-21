@@ -33,9 +33,7 @@ function clickLikeButton() {
       function: () => {
         const likeButtons = document.querySelectorAll(theSelector);
         for (const button of likeButtons) {
-          if (isInViewport(button)) {
-            button.click();
-          }
+          button.click();
         }
       },
     });
@@ -56,17 +54,6 @@ function refreshPage() {
   }
 }
 
-// Function to check if an element is in the viewport
-function isInViewport(element) {
-  const rect = element.getBoundingClientRect();
-  return (
-    rect.top >= 0 &&
-    rect.left >= 0 &&
-    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-  );
-}
-
 // Function to toggle the extension's state
 function toggleExtensionState() {
   isExtensionActive = !isExtensionActive;
@@ -85,15 +72,16 @@ function toggleExtensionState() {
 
     // Send a message to the content script to toggle the extension state
     chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
-      chrome.tabs.sendMessage(tabs[0].id, { action: 'toggleExtensionState', isExtensionActive });
+      // Change the action to 'clickLikeButton'
+      chrome.tabs.sendMessage(tabs[0].id, { action: 'clickLikeButton', isExtensionActive });  
     });
 
-    // If extension is disabled, clear the like button clicking interval
-    if (!isExtensionActive) {
-      clearInterval(likeButtonClickIntervalID);
-    } else {
-      // If extension is enabled, set up a new interval for like button clicking
+    // If the extension is enabled, set up a new interval for like button clicking
+    if (isExtensionActive) {
       likeButtonClickIntervalID = setInterval(clickLikeButton, getRandomDelay(minClickDelay, maxClickDelay));
+    } else {
+      // If the extension is disabled, clear the like button clicking interval
+      clearInterval(likeButtonClickIntervalID);
     }
   });
 }
@@ -101,12 +89,12 @@ function toggleExtensionState() {
 // Listen for clicks on the extension icon using chrome.action
 chrome.action.onClicked.addListener(toggleExtensionState);
 
-// Initialize the extension state and setup the initial intervals
+// Initialize the extension state and set up the initial intervals
 chrome.storage.local.get('isExtensionActive', data => {
   if (data.isExtensionActive) {
     toggleExtensionState(); // Enable the extension if it was previously active
   } else {
-    // Setup initial intervals if extension is disabled
+    // Set up initial intervals if the extension is disabled
     refreshPageWithRandomInterval();
     likeButtonClickIntervalID = setInterval(clickLikeButton, getRandomDelay(minClickDelay, maxClickDelay));
   }
