@@ -1,0 +1,29 @@
+{
+    "manifest_version": 3,
+    "name": "Auto Refresh",
+    "version": "1.0",
+    "description": "Automatically refreshes the current page every 30 minutes.",
+    "permissions": ["activeTab", "scripting", "storage"],
+    "background": {
+        "service_worker": "background.js"
+    },  
+    "action": {
+      "default_icon": {
+        "16": "images/icon-16.png",
+        "48": "images/icon-48.png",
+        "128": "images/icon-128.png"
+      }
+    },
+    "icons": {
+      "16": "images/icon-16.png",
+      "48": "images/icon-48.png",
+      "128": "images/icon-128.png"
+    },
+    "content_scripts": [
+      {
+        "matches": ["<all_urls>"],
+        "js": ["content.js"]
+      }
+    ]
+  }
+  
