@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "Auto Refresh",
     "version": "1.0",
-    "description": "Automatically refreshes the current page every 30 minutes.",
+    "description": "Automatically refreshes the current page at random intervals and then clicks an element on that page.",
     "permissions": ["activeTab", "scripting", "storage"],
     "background": {
         "service_worker": "background.js"
