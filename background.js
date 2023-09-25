@@ -1,8 +1,8 @@
 let isExtensionActive = false;
-const minRefreshInterval = 10 * 60 * 1000; // 10 minutes
-const maxRefreshInterval = 90 * 60 * 1000; // 90 minutes
-const minClickDelay = 3 * 1000; // 3 seconds
-const maxClickDelay = 10 * 1000; // 10 seconds
+const minRefreshInterval = 1 * 1000; // 3 seconds
+const maxRefreshInterval = 4 * 1000; // 10 seconds
+const minClickDelay = 1 * 1000; // 3 seconds
+const maxClickDelay = 1 * 1000; // 10 seconds
 const theSelector = 'div[aria-label="Like"]';
 
 let refreshIntervalID; // Store the interval ID for page refresh
@@ -31,9 +31,15 @@ function clickLikeButton() {
     chrome.scripting.executeScript({
       target: { tabId: tabs[0].id },
       function: () => {
-        const likeButtons = document.querySelectorAll(theSelector);
+        const likeButtons = document.querySelectorAll('div[aria-label="Like"]');
         for (const button of likeButtons) {
-          button.click();
+          if (isInViewport(button)) {
+            button.click();
+
+            // Display the date and time when the button was clicked
+            const clickedTime = new Date().toLocaleString();
+            console.log('Clicked at:', clickedTime);
+          }
         }
       },
     });
@@ -52,6 +58,17 @@ function refreshPage() {
       });
     });
   }
+}
+
+// Function to check if an element is in the viewport
+function isInViewport(element) {
+  const rect = element.getBoundingClientRect();
+  return (
+    rect.top >= 0 &&
+    rect.left >= 0 &&
+    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+  );
 }
 
 // Function to toggle the extension's state
@@ -73,15 +90,16 @@ function toggleExtensionState() {
     // Send a message to the content script to toggle the extension state
     chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
       // Change the action to 'clickLikeButton'
-      chrome.tabs.sendMessage(tabs[0].id, { action: 'clickLikeButton', isExtensionActive });  
+      chrome.tabs.sendMessage(tabs[0].id, { action: 'clickLikeButton', isExtensionActive });
+
     });
 
-    // If the extension is enabled, set up a new interval for like button clicking
-    if (isExtensionActive) {
-      likeButtonClickIntervalID = setInterval(clickLikeButton, getRandomDelay(minClickDelay, maxClickDelay));
-    } else {
-      // If the extension is disabled, clear the like button clicking interval
+    // If extension is disabled, clear the like button clicking interval
+    if (!isExtensionActive) {
       clearInterval(likeButtonClickIntervalID);
+    } else {
+      // If extension is enabled, set up a new interval for like button clicking
+      likeButtonClickIntervalID = setInterval(clickLikeButton, getRandomDelay(minClickDelay, maxClickDelay));
     }
   });
 }
@@ -89,12 +107,12 @@ function toggleExtensionState() {
 // Listen for clicks on the extension icon using chrome.action
 chrome.action.onClicked.addListener(toggleExtensionState);
 
-// Initialize the extension state and set up the initial intervals
+// Initialize the extension state and setup the initial intervals
 chrome.storage.local.get('isExtensionActive', data => {
   if (data.isExtensionActive) {
     toggleExtensionState(); // Enable the extension if it was previously active
   } else {
-    // Set up initial intervals if the extension is disabled
+    // Setup initial intervals if extension is disabled
     refreshPageWithRandomInterval();
     likeButtonClickIntervalID = setInterval(clickLikeButton, getRandomDelay(minClickDelay, maxClickDelay));
   }
