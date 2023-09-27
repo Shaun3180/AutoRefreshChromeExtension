@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "AutoClicker",
+  "name": "Auto Click This",
   "version": "1.0",
-  "description": "Automatically refreshes the current page at random intervals and then clicks an element on that page.",
+  "description": "Automatically refreshes the current page at predefined intervals and then clicks an element on that page.",
   "permissions": ["activeTab", "scripting", "storage"],
   "background": {
       "service_worker": "background.js"
@@ -14,6 +14,7 @@
       "128": "images/icon-128.png"
     }
   },
+  "options_page": "options.html",
   "icons": {
     "16": "images/icon-16.png",
     "48": "images/icon-48.png",
