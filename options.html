@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <title>AutoClicker</title>
+        <link rel="stylesheet" href="bootstrap.min.css" />
+        <link rel="stylesheet" href="options.css" />
+        <link rel="shortcut icon" href="images/icon-48.png" />
+    </head>
+    <body>
+        <div id="root">
+            <nav class="navbar navbar-expand-lg">
+                <span class="navbar-brand"><img src="images/icon-48-white.png" height="30" alt="Fake Filler" /></span><span class="text-white border-0 lead">AutoClicker</span>
+                <button aria-controls="main-navbar-nav" type="button" aria-label="Toggle navigation" class="navbar-toggler collapsed"><span class="navbar-toggler-icon"></span></button>
+                <div class="navbar-collapse collapse" id="main-navbar-nav">
+                    <div class="mr-auto navbar-nav"></div>
+                </div>
+            </nav>
+            <div id="main-content" class="container">
+              
+                <form id="options-form" action="#">
+                  <div class="mt-5">
+                    <h2>Element To Click</h2>
+                    <p class="form-text">Enter the selector information for the element you want to have clicked.</p>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label text-sm-right" for="theSelector">Selector:</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" type="text" id="theSelector" />
+                            <!--<small class="form-text text-muted">The minimum number of seconds that the page will be refreshed.</small>-->
+                        </div>
+                    </div>
+                </div>  
+                  <div class="mt-5">
+                        <h2>Page Refresh Settings</h2>
+                        <p class="form-text">The extension will refresh the page at a random interval between the two values (in milliseconds) entered below.</p>
+
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label text-sm-right" for="minPageRefreshInterval">Minimum Refresh Interval (in milliseconds):</label>
+                            <div class="col-sm-8">
+                                <input class="form-control" type="number" id="minPageRefreshInterval" />
+                                <!--<small class="form-text text-muted">The minimum number of seconds that the page will be refreshed.</small>-->
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label text-sm-right" for="maxPageRefreshInterval">Maximum Refresh Interval (in milliseconds):</label>
+                            <div class="col-sm-8">
+                                <input class="form-control" type="number" id="maxPageRefreshInterval" />
+                                <!--<small class="form-text text-muted">The maximum number of seconds that the page will be refreshed.</small>-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-5">
+                        <h2 class="ml-1">Click Delay After Refresh Settings</h2>
+                        <p class="form-text">The extension will click the element(s) specified above at a random interval between the two values (in milliseconds) entered below.</p>
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label text-sm-right" for="minClickDelay">Minimum Click Delay (in milliseconds):</label>
+                            <div class="col-sm-8">
+                                <input class="form-control" type="number" id="minClickDelay" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label text-sm-right" for="maxClickDelay">Maximum Click Delay (in milliseconds):</label>
+                            <div class="col-sm-8">
+                                <input class="form-control" type="number" id="maxClickDelay" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-5">
+                      <h2 class="ml-1">Delay Between Clicks on Page Settings</h2>
+                      <p class="form-text">If multiple elements are matched, you may introduce a delay (in milliseconds) between the first clicked item, and the second, and so on, as entered below.</p>
+                      <div class="form-group row">
+                          <label class="col-sm-4 col-form-label text-sm-right" for="minDelayBetweenElementClicks">Minimum Click Delay (in milliseconds):</label>
+                          <div class="col-sm-8">
+                              <input class="form-control" type="number" id="minDelayBetweenElementClicks" />
+                          </div>
+                      </div>
+                      <div class="form-group row">
+                          <label class="col-sm-4 col-form-label text-sm-right" for="maxDelayBetweenElementClicks">Maximum Click Delay (in milliseconds):</label>
+                          <div class="col-sm-8">
+                              <input class="form-control" type="number" id="maxDelayBetweenElementClicks" />
+                          </div>
+                      </div>
+                  </div>
+                    <div class="mt-5">
+                      <h2 class="ml-1">Run When?</h2>
+                      <p class="form-text">The extension will only click the element(s) specified above only during the hours entered below.</p>
+                      <div class="form-group row">
+                          <label class="col-sm-4 col-form-label text-sm-right" for="openHour">Start Hour (e.g. enter 1 for 1am or 13 for 1pm)</label>
+                          <div class="col-sm-8">
+                              <input class="form-control" type="number" id="openHour" />
+                          </div>
+                      </div>
+                      <div class="form-group row">
+                          <label class="col-sm-4 col-form-label text-sm-right" for="closeHour">End Hour (e.g. enter 1 for 1am or 13 for 1pm):</label>
+                          <div class="col-sm-8">
+                              <input class="form-control" type="number" id="closeHour" />
+                          </div>
+                      </div>
+                  </div>
+                    <div class="row">
+                        <div class="col-sm-12"><button type="submit" class="btn btn-primary" style="background-color:#30638E">Save Settings</button></div>
+                        <span class="form-text font-weight-bold" id="status"></span>
+                    </div>
+                </form>
+            </div>
+            <footer id="main-footer" class="container mt-5">
+                <p>If you have any suggestions to make this extension better, or find any issues, please send me an <a href="mailto:shaungeisert@gmail.com">email</a>.</p>
+                <ul class="list-inline">
+                    <!--<li class="list-inline-item"><a href="#">Reset Settings</a></li>
+                    <li class="list-inline-item"><a href="#/changelog">Changelog</a></li>-->
+                    <li class="list-inline-item"><a href="https://github.com/Shaun3180/AutoRefreshChromeExtension/issues" target="_blank" rel="noopener noreferrer">Issue Tracker</a></li>
+                </ul>
+            </footer>
+        </div>
+        <script src="options.js"></script>
+    </body>
+</html>
